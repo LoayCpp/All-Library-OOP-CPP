@@ -17,6 +17,16 @@ The goal of this project is to simplify development and eliminate repetitive cod
 
 ---
 
+
+| Library Name        | Description |
+|--------------------|-------------|
+| `clsDate`          | Handles date operations such as formatting, comparison, validation, and date calculations. |
+| `clsPeriod`        | Manages date periods including duration calculation, overlap checking, and period comparison. |
+| `clsString`        | Provides string manipulation utilities such as trimming, splitting, case conversion, and formatting. |
+| `clsInputValidate` | Validates user input including numbers, dates, ranges, and formatted values. |
+| `clsUtil`          | Contains general-purpose helper functions used across the project (random values, conversions, common utilities). |
+
+---
 ## 🧩 Library Structure
 The repository contains multiple libraries, each implemented as a standalone `class` with a clear responsibility.
 
