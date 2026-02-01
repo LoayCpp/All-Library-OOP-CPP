@@ -1,14 +1,17 @@
 #pragma once
 #include<iostream>
-#include"clsperson.h"
+#include<clsperson.h>
 #include<fstream>
 #include<string>
 #include"clsString.h"
 #include<vector>
 using namespace std;
-class clsBankClient :public clsperson
+class clsBankClient :public clsPerson
 {
 private:
+
+
+
 	enum enMode{EmptyMode=0,UpdateMode=1,AddModeClient=2};
 	string _AccountNumber;
 	string _PinCode;
@@ -26,7 +29,6 @@ private:
 		return clsBankClient(enMode::EmptyMode, " ", " ", " ", " ", " ", " ",0);
 
 	}
-
 	string _ConvertObjectToLine(clsBankClient Client,string Delim = "#//#") {
 
 		string Word = "";
@@ -40,7 +42,7 @@ private:
 
 		return Word;
 	}
-	vector<clsBankClient>_UploadClinetFromFile() {
+	static vector<clsBankClient>_UploadClinetFromFile() {
 
 		vector<clsBankClient> Vclients;
 		fstream Myfile;
@@ -61,7 +63,6 @@ private:
 
 		return Vclients;
 	}
-
 	void _AddClient() {
 
 
@@ -114,7 +115,6 @@ private:
 
 
 	}
-
 	void _Update() {
 		vector<clsBankClient> Vclinets = _UploadClinetFromFile();
 		for (clsBankClient& C : Vclinets) {
@@ -131,9 +131,13 @@ private:
 		_SaveClinetToFile(Vclinets);
 
 	}
+
+
+
+
 public:
 	clsBankClient(enMode Mode,string FirstName, string LastName, string Email, string Phone, string AccountNumber, string PinCode,double  Balance)
-		:clsperson(FirstName, LastName, Email, Phone) {
+		:clsPerson(FirstName, LastName, Email, Phone) {
 		_Mode = Mode;
 		_AccountNumber = AccountNumber;
 		_PinCode = PinCode;
@@ -147,43 +151,24 @@ public:
 
 		return _AccountNumber;
 	}
+	__declspec(property(get = GetAccountNumber))string AccountNumber;
 
 	void SetPinCode(string PinCode) {
 		_PinCode = PinCode;
 	}
 	string  GetPinCode() { return _PinCode; }
-
 	__declspec(property(get = GetPinCode, put = SetPinCode))string PinCode;
-
 
 	void SetBalance(double Balance) {
 		_Balance = Balance;
 	}
-
 	double GetBalance() { return _Balance; }
 	__declspec(property(get = GetBalance, put = SetBalance))double Balance;
 
-
-	void Print() {
-
-		cout << "\n-----Info Client----------\n";
-		cout << "FirstName        :"<< FirstName << endl;
-		cout << "LastName         :" << LastName << endl;
-		cout << "FullName         :" << FullName << endl;
-		cout << "Email            :" << Email << endl;
-		cout << "Phone            :" << Phone << endl;
-		cout << "AccountNumber    :" << _AccountNumber << endl;
-		cout << "PinCode          :" << _PinCode << endl;
-		cout << "Balance          :" << _Balance << endl;
-		cout << "----------------------------------------\n";
+	static clsBankClient GetAddClientModeAndAccount(string Account) {
 
 
-
-	}
-	static clsBankClient GetAddClientModeAndAccount(string Acount) {
-
-
-		return clsBankClient(enMode::AddModeClient, "", "", "", "", Acount, "", 0);
+		return clsBankClient(enMode::AddModeClient, "", "", "", "", Account, "", 0);
 	}
 
 	static clsBankClient Find(string AccountNumber) {
@@ -256,7 +241,7 @@ public:
 
 		}
 		_SaveClinetToFile(Vclient);
-			* this = _GetEmptyClientObject();
+			*this = _GetEmptyClientObject();
 
 			return true;
 
@@ -294,6 +279,24 @@ public:
 
 
 
+
+	}
+	static vector<clsBankClient> GetListClient() {
+
+
+
+		return _UploadClinetFromFile();
+	}
+	static double TotalBalance() {
+	
+		vector<clsBankClient>vClient = _UploadClinetFromFile();
+		double Balance = 0;
+		for (clsBankClient &c:vClient)
+		{
+			Balance += c.Balance;
+		}
+
+		return Balance;
 
 	}
 };
